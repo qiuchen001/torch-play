@@ -11,8 +11,15 @@ class ImageEncoder(nn.Module):
         super(ImageEncoder, self).__init__()
         self.resnet = models.resnet50(pretrained=True)
         self.resnet.fc = nn.Identity()  # 去掉全连接层
+        # self.resnet.fc 是ResNet模型最后的全连接分类层
+        # nn.Identity() 是一个恒等映射层，输入什么就输出什么
+        # 为什么这样做？
+        # 特征提取：只需要ResNet作为图像特征提取器
+        # 自定义分类：后续会添加自己的分类层或对比学习层
+        # 迁移学习：利用预训练的特征提取能力，但重新设计输出层
 
     def forward(self, x):
+        # 现在只输出特征，不进行分类
         return self.resnet(x)
 
 
