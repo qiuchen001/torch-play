@@ -105,7 +105,7 @@ def prepare_dataset():
         dataset=train_ds,
         batch_size=2,
         shuffle=False,  # NEW: False because of DistributedSampler below
-        pin_memory=True,
+        pin_memory=True,  # 将数据加载到CPU的固定（pinned）内存中，以加速数据从CPU到GPU的传输。
         drop_last=True,
         # NEW: chunk batches across GPUs without overlapping samples:
         sampler=DistributedSampler(train_ds)  # NEW
