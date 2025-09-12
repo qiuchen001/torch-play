@@ -1,2 +1,4 @@
 ./data/*
 ./clip-play/data/*
+.ipynb_checkpoints
+.lingma
