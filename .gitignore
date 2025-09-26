@@ -2,3 +2,6 @@
 ./clip-play/data/*
 .ipynb_checkpoints
 .lingma
+__pycache__
+*/datasets/*
+**/datasets
