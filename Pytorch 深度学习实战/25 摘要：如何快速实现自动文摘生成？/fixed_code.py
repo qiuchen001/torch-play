@@ -190,6 +190,28 @@ def generate_summary(text, model, tokenizer):
     return summary
 
 
+def train(model, dataset):
+    from transformers import Seq2SeqTrainingArguments, Seq2SeqTrainer
+    training_args = Seq2SeqTrainingArguments(
+        output_dir='./models/bart-summarizer',# 模型输出目录
+        num_train_epochs=1, # 训练轮数
+        per_device_train_batch_size=1, # 训练过程bach_size
+        per_device_eval_batch_size=1, # 评估过程bach_size
+        warmup_steps=500, # 学习率相关参数
+        weight_decay=0.01, # 学习率相关参数
+        logging_dir='./logs', # 日志目录
+    )
+
+    trainer = Seq2SeqTrainer(
+        model=model,                       
+        args=training_args,                  
+        train_dataset=dataset['train'],        
+        eval_dataset=dataset['validation']   
+    )
+
+    trainer.train()
+
+
 def main():
     """主函数：执行自动文摘生成流程"""
     # 1. 加载模型和分词器
@@ -222,6 +244,9 @@ def main():
     print(f"生成摘要: {val_summary}")
     
     print("\n自动文摘生成流程完成！包含训练集和验证集。")
+
+    # 6. 训练模型
+    train(model, processed_dataset_dict)
 
 
 if __name__ == "__main__":
